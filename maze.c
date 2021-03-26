@@ -39,10 +39,12 @@ static void delete_internals(struct maze_internals* internals);
 void delete(Maze* self)
 {
     delete_internals(self->_internals);
+    free(self);
 }
 
 void delete_internals(struct maze_internals* internals)
 {
     internals->char_map->delete(internals->char_map);
     internals->matrix->delete(internals->matrix);
+    free(internals);
 }
