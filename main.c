@@ -1,4 +1,4 @@
-#include "maze_parser.h"
+#include "maze.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -9,8 +9,8 @@ int main(int argc, char* argv[])
         dprintf(STDERR_FILENO, "%s\n", "my_mouse takes exactly one argument (path to maze file)");
         return EXIT_FAILURE;
     }
-    printf("%s\n", argv[1]);
-    MazeParserCls.getParser();
+    Maze* maze = MazeClass.fromPath(argv[1]);
+    printf("%p\n", (void*) maze->_internals);
 
     return EXIT_SUCCESS;
 }
