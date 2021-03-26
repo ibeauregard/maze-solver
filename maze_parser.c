@@ -7,6 +7,11 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+Maze* from_path(const char* path);
+struct maze_parser MazeParser = {
+    .fromPath = &from_path
+};
+
 typedef struct parser {
     int fd;
     CharMap* char_map;
@@ -14,12 +19,6 @@ typedef struct parser {
 } Parser;
 
 static Parser parser;
-
-Maze* from_path(const char* path);
-struct maze_parser MazeParser = {
-    .fromPath = &from_path
-};
-
 
 static void parse_header();
 static void fill_matrix();
