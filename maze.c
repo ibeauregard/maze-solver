@@ -2,6 +2,7 @@
 #include "char_map.h"
 #include "maze_matrix.h"
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 static Maze* from_path(const char* path);
@@ -52,9 +53,7 @@ void initialize_matrix(struct maze_internals* _internals)
 {
     _internals->matrix = MazeMatrixClass.new(10, 10);
     for (uint i = 0; i < _internals->matrix->num_rows; i++) {
-        char* row = malloc(_internals->matrix->num_cols + 1);
-        row[_internals->matrix->num_cols] = 0;
-        _internals->matrix->setRow(_internals->matrix, i, row);
+        _internals->matrix->setRow(_internals->matrix, i, strdup("** *  * **"));
     }
 
 }
