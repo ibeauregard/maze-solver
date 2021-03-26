@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
     Maze* maze = MazeClass.fromPath(argv[1]);
-
+    maze->print(maze);
     maze->delete(maze);
 
     return EXIT_SUCCESS;

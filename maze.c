@@ -31,10 +31,17 @@ extern struct char_map_class CharMapClass;
 extern struct maze_matrix_class MazeMatrixClass;
 void initialize_internals(Maze* self)
 {
-    struct maze_internals* internals = malloc(sizeof (struct maze_internals));
-    internals->char_map = CharMapClass.new();
-    internals->matrix = MazeMatrixClass.new(10, 10);
-    self->_internals = internals;
+    struct maze_internals* _internals = malloc(sizeof (struct maze_internals));
+    _internals->char_map = CharMapClass.new();
+    _internals->char_map->wall = '*';
+    _internals->char_map->corridor = ' ';
+    _internals->char_map->path = 'o';
+    _internals->char_map->entrance = '1';
+    _internals->char_map->exit = '2';
+
+
+    _internals->matrix = MazeMatrixClass.new(10, 10);
+    self->_internals = _internals;
 }
 
 static void print_header(struct maze_internals* _internals);
@@ -42,11 +49,13 @@ void print(Maze* self)
 {
     struct maze_internals* _internals = self->_internals;
     print_header(_internals);
+    puts("");
     _internals->matrix->print(_internals->matrix);
 }
 
 void print_header(struct maze_internals* _internals)
 {
+    printf("%dx%d", _internals->matrix->num_rows, _internals->matrix->num_cols);
     _internals->char_map->print(_internals->char_map);
 }
 
