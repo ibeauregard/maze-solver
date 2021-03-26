@@ -4,6 +4,7 @@
 struct maze_internals;
 typedef struct maze {
     struct maze_internals* _internals;
+    void (*print)(struct maze* self);
     void (*delete)(struct maze* self);
 } Maze;
 
