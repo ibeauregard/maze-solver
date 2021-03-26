@@ -8,12 +8,9 @@ typedef struct maze_parser {
     void (*publicMethod)(struct maze_parser* self);
 } MazeParser;
 
-MazeParser* get_parser();
-
-static struct maze_parser_class {
+struct maze_parser_class {
     MazeParser* (*getParser)();
-} MazeParserClass = {
-    .getParser = &get_parser
 };
+extern struct maze_parser_class MazeParserCls;
 
 #endif

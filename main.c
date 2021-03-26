@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
     printf("%s\n", argv[1]);
-    printf("%p\n", (void*) MazeParserClass.getParser());
+    MazeParserCls.getParser();
 
     return EXIT_SUCCESS;
 }
