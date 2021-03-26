@@ -1,3 +1,4 @@
+#include "maze_parser.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -9,5 +10,7 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
     printf("%s\n", argv[1]);
+    printf("%p\n", (void*) MazeParserClass.getParser());
+
     return EXIT_SUCCESS;
 }
