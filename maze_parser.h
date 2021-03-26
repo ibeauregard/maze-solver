@@ -10,7 +10,7 @@ typedef struct maze_parser {
 
 MazeParser* get_parser();
 
-struct maze_parser_class {
+static struct maze_parser_class {
     MazeParser* (*getParser)();
 } MazeParserClass = {
     .getParser = &get_parser
