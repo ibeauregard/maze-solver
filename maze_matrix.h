@@ -12,7 +12,7 @@ typedef struct maze_matrix {
 } MazeMatrix;
 
 struct maze_matrix_class {
-    MazeMatrix* (*new)();
+    MazeMatrix* (*new)(uint num_rows, uint num_cols);
 };
 
 #endif

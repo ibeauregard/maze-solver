@@ -31,7 +31,7 @@ void initialize_internals(Maze* self)
 {
     struct maze_internals* internals = malloc(sizeof (struct maze_internals));
     internals->char_map = CharMapClass.new();
-    internals->matrix = MazeMatrixClass.new();
+    internals->matrix = MazeMatrixClass.new(10, 10);
     self->_internals = internals;
 }
 

@@ -11,6 +11,7 @@ int main(int argc, char* argv[])
     }
     Maze* maze = MazeClass.fromPath(argv[1]);
     printf("%p\n", (void*) maze->_internals);
+    maze->delete(maze);
 
     return EXIT_SUCCESS;
 }

@@ -9,9 +9,11 @@ struct maze_matrix_class MazeMatrixClass = {
 
 static void print(MazeMatrix* self);
 static void delete(MazeMatrix* self);
-MazeMatrix* new()
+MazeMatrix* new(uint num_rows, uint num_cols)
 {
     MazeMatrix* self = malloc(sizeof (MazeMatrix));
+    self->num_rows = num_rows;
+    self->num_cols = num_cols;
 
     self->print = &print;
     self->delete = &delete;
