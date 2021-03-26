@@ -15,5 +15,6 @@ typedef struct char_map {
 struct char_map_class {
     CharMap* (*new)();
 };
+extern struct char_map_class CharMapClass;
 
 #endif
