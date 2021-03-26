@@ -7,6 +7,7 @@ typedef struct maze_matrix {
     uint num_cols;
     char** rows;
 
+    void (*setRow)(struct maze_matrix* self, uint index, char* content);
     void (*print)(struct maze_matrix* self);
     void (*delete)(struct maze_matrix* self);
 } MazeMatrix;
