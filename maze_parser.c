@@ -72,6 +72,7 @@ Maze* new_maze()
 {
     Maze* maze = malloc(sizeof (Maze));
     initialize_internals(maze);
+    maze->valid = false;
     return maze;
 }
 

@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define INVALID_MAP_ERR "MAP ERROR"
+
 static Maze* from_path(const char* path);
 struct maze_class MazeClass = {
     .fromPath = &from_path
@@ -21,12 +23,22 @@ Maze* from_path(const char* path)
     return self;
 }
 
+static void print_error_message();
 static void print_header(struct maze_internals* _internals);
 void print(Maze* self)
 {
+    if (!self->valid) {
+        print_error_message();
+        return;
+    }
     struct maze_internals* _internals = self->_internals;
     print_header(_internals);
     _internals->matrix->print(_internals->matrix);
+}
+
+void print_error_message()
+{
+    puts(INVALID_MAP_ERR);
 }
 
 void print_header(struct maze_internals* _internals)

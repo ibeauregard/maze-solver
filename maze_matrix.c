@@ -31,7 +31,7 @@ void set_row(MazeMatrix* self, uint index, char* content)
 void print(MazeMatrix* self)
 {
     for (uint i = 0; i < self->num_rows; i++) {
-        printf("%s\n", self->rows[i]);
+        puts(self->rows[i]);
     }
 }
 
