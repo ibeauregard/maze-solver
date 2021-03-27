@@ -132,7 +132,13 @@ void validate_row(char* row, uint row_index)
         dprintf(STDERR_FILENO, "Row %u (0-based) has %u squares; should be %u\n", row_index, col_count, parser.matrix->num_cols);
     }
     for (uint j = 0; !parser.failed && j < parser.matrix->num_cols && j < col_count; j++) {
-        if (!parser.char_map->contains(parser.char_map, row[j])) {
+        if (row[j] == parser.char_map->entrance) {
+            parser.entrance = MazeCoordsClass.new(row_index, j);
+        } else if (row[j] == parser.char_map->exit) {
+            parser.exit = MazeCoordsClass.new(row_index, j);
+        } else if (row[j] != parser.char_map->wall
+                    && row[j] != parser.char_map->corridor
+                    && row[j] != parser.char_map->path) {
             parser.failed = true;
             dprintf(STDERR_FILENO, "Invalid character '%c' at row %u, column %u (0-based)\n", row[j], row_index, j);
         }
@@ -172,7 +178,7 @@ void verify_and_set_exit(Maze* maze)
         if (parser.exit) parser.exit->delete(parser.exit);
         return;
     }
-    if (!parser.entrance) {
+    if (!parser.exit) {
         parser.failed = true;
         dprintf(STDERR_FILENO, "%s\n", "Maze has no exit (exactly one required)");
         return;

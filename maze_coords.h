@@ -12,6 +12,6 @@ typedef struct maze_coords {
 struct maze_coords_class {
     MazeCoords* (*new)(uint row, uint col);
 };
-extern struct maze_coords_class MazeCoordClass;
+extern struct maze_coords_class MazeCoordsClass;
 
 #endif
