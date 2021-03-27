@@ -7,15 +7,28 @@ struct char_map_class CharMapClass = {
     .new = &new
 };
 
+static bool has_distinct_elements(CharMap* self);
 static void print(CharMap* self);
 static void delete(CharMap* self);
 CharMap* new()
 {
     CharMap* self = malloc(sizeof (CharMap));
 
+    self->hasDistinctElements = &has_distinct_elements;
     self->print = &print;
     self->delete = &delete;
     return self;
+}
+
+bool has_distinct_elements(CharMap* self)
+{
+    char members[] = {self->wall, self->corridor, self->path, self->entrance, self->exit};
+    for (unsigned short i = 0; i < 4; i++) {
+        for (unsigned short j = i + 1; j < 5; j++) {
+            if (members[i] == members[j]) return false;
+        }
+    }
+    return true;
 }
 
 void print(CharMap* self)

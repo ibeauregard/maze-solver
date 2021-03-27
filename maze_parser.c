@@ -5,7 +5,9 @@
 #include "maze_internals.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 Maze* from_path(const char* path);
 struct maze_parser MazeParser = {
@@ -28,7 +30,10 @@ static void fill_matrix();
 static Maze* new_maze();
 Maze* from_path(const char* path)
 {
-    if ((parser.fd = open(path, O_RDONLY)) == -1) parser.failed = true;
+    if ((parser.fd = open(path, O_RDONLY)) == -1) {
+        parser.failed = true;
+        dprintf(STDERR_FILENO, "%s\n", "Can't open file");
+    }
     if (!parser.failed) parse_header();
     if (!parser.failed) fill_matrix();
     if (parser.fd != -1) close(parser.fd);
@@ -39,9 +44,11 @@ static char* initialize_matrix(char* header);
 static void initialize_char_map(char* header);
 void parse_header()
 {
-    char* header;
-    if (!(header = readline(parser.fd))) parser.failed = true;
-    char* char_map;
+    char *header, *char_map;
+    if (!(header = readline(parser.fd))){
+        parser.failed = true;
+        dprintf(STDERR_FILENO, "%s\n", "File is empty");
+    }
     if (!parser.failed) char_map = initialize_matrix(header);
     if (!parser.failed) initialize_char_map(char_map);
     if (header) free(header);
@@ -49,20 +56,41 @@ void parse_header()
 
 char* initialize_matrix(char* header)
 {
-    long num_rows = strtol(header, &header, 10);
-    long num_cols = strtol(header + 1, &header, 10);
-    parser.matrix = MazeMatrixClass.new(num_rows, num_cols);
+    long num_rows, num_cols;
+    if ((num_rows = strtol(header, &header, 10)) <= 0) {
+        parser.failed = true;
+        dprintf(STDERR_FILENO, "%s\n", "Header specifies invalid number of rows");
+    }
+    if (!parser.failed && (num_cols = strtol(header + 1, &header, 10)) <= 0) {
+        parser.failed = true;
+        dprintf(STDERR_FILENO, "%s\n", "Header specifies invalid number of columns");
+    }
+    if (!parser.failed && num_rows * num_cols > 1000000000) /* one billion */ {
+        parser.failed = true;
+        dprintf(STDERR_FILENO, "%s\n", "Header specifies a number of squares greater than one billion");
+    }
+    if (!parser.failed) parser.matrix = MazeMatrixClass.new(num_rows, num_cols);
     return header;
 }
 
 void initialize_char_map(char* char_map)
 {
     parser.char_map = CharMapClass.new();
-    parser.char_map->wall = char_map[0];
-    parser.char_map->corridor = char_map[1];
-    parser.char_map->path = char_map[2];
-    parser.char_map->entrance = char_map[3];
-    parser.char_map->exit = char_map[4];
+    if (strlen(char_map) != 5) {
+        parser.failed = true;
+        dprintf(STDERR_FILENO, "%s\n", "Header should specify a character mapping of length 5");
+    }
+    if (!parser.failed) {
+        parser.char_map->wall = char_map[0];
+        parser.char_map->corridor = char_map[1];
+        parser.char_map->path = char_map[2];
+        parser.char_map->entrance = char_map[3];
+        parser.char_map->exit = char_map[4];
+    }
+    if (!parser.failed && !parser.char_map->hasDistinctElements(parser.char_map)) {
+        parser.failed = true;
+        dprintf(STDERR_FILENO, "%s\n", "Character mapping contains repeated elements");
+    }
 }
 
 void fill_matrix()
