@@ -146,13 +146,11 @@ void validate_row(char* row, uint row_index)
 }
 
 static void verify_and_set_entrance_and_exit(Maze* maze);
-static void delete_entrance_and_exit();
 static void initialize_internals(Maze* maze);
 Maze* new_maze()
 {
     Maze* maze = malloc(sizeof (Maze));
     if (!parser.failed) verify_and_set_entrance_and_exit(maze);
-    if (parser.failed) delete_entrance_and_exit();
     if (!parser.failed) initialize_internals(maze);
     maze->valid = !parser.failed;
     return maze;
@@ -163,21 +161,17 @@ void verify_and_set_entrance_and_exit(Maze* maze)
     if (!parser.entrance) {
         parser.failed = true;
         dprintf(STDERR_FILENO, "%s\n", "Maze has no entrance (exactly one required)");
+        if (parser.exit) parser.exit->delete(parser.exit);
         return;
     }
     if (!parser.exit) {
         parser.failed = true;
         dprintf(STDERR_FILENO, "%s\n", "Maze has no exit (exactly one required)");
+        if (parser.entrance) parser.entrance->delete(parser.exit);
         return;
     }
     maze->entrance = parser.entrance;
     maze->exit = parser.exit;
-}
-
-void delete_entrance_and_exit()
-{
-    if (parser.entrance) parser.entrance->delete(parser.entrance);
-    if (parser.exit) parser.exit->delete(parser.exit);
 }
 
 void initialize_internals(Maze* maze)
