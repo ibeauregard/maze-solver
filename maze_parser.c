@@ -6,8 +6,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
 
 Maze* from_path(const char* path);
 struct maze_parser MazeParser = {
@@ -18,20 +16,23 @@ typedef struct parser {
     int fd;
     CharMap* char_map;
     MazeMatrix* matrix;
+    bool failed;
 } Parser;
 
-static Parser parser;
+static Parser parser = {
+    .failed = false
+};
 
 static void parse_header();
 static void fill_matrix();
-static Maze* new_maze(bool valid);
+static Maze* new_maze();
 Maze* from_path(const char* path)
 {
-    if ((parser.fd = open(path, O_RDONLY)) == -1) return new_maze(false);
-    parse_header();
-    fill_matrix();
-    close(parser.fd);
-    return new_maze(true);
+    if ((parser.fd = open(path, O_RDONLY)) == -1) parser.failed = true;
+    if (!parser.failed) parse_header();
+    if (!parser.failed) fill_matrix();
+    if (!parser.failed) close(parser.fd);
+    return new_maze();
 }
 
 static char* initialize_matrix(char* header);
@@ -70,11 +71,11 @@ void fill_matrix()
 }
 
 static void initialize_internals(Maze* maze);
-Maze* new_maze(bool valid)
+Maze* new_maze()
 {
     Maze* maze = malloc(sizeof (Maze));
-    maze->valid = valid;
-    if (valid) initialize_internals(maze);
+    maze->valid = !parser.failed;
+    if (maze->valid) initialize_internals(maze);
     return maze;
 }
 
