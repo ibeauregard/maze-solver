@@ -51,7 +51,7 @@ void print_header(struct maze_internals* _internals)
 static void delete_internals(struct maze_internals* _internals);
 void delete(Maze* self)
 {
-    delete_internals(self->_internals);
+    if (self->valid) delete_internals(self->_internals);
     free(self);
 }
 

@@ -6,6 +6,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
 
 Maze* from_path(const char* path);
 struct maze_parser MazeParser = {
@@ -22,14 +24,14 @@ static Parser parser;
 
 static void parse_header();
 static void fill_matrix();
-static Maze* new_maze();
+static Maze* new_maze(bool valid);
 Maze* from_path(const char* path)
 {
-    parser.fd = open(path, O_RDONLY);
+    if ((parser.fd = open(path, O_RDONLY)) == -1) return new_maze(false);
     parse_header();
     fill_matrix();
     close(parser.fd);
-    return new_maze();
+    return new_maze(true);
 }
 
 static char* initialize_matrix(char* header);
@@ -68,11 +70,11 @@ void fill_matrix()
 }
 
 static void initialize_internals(Maze* maze);
-Maze* new_maze()
+Maze* new_maze(bool valid)
 {
     Maze* maze = malloc(sizeof (Maze));
-    initialize_internals(maze);
-    maze->valid = false;
+    maze->valid = valid;
+    if (valid) initialize_internals(maze);
     return maze;
 }
 
