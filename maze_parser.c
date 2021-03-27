@@ -19,17 +19,25 @@ typedef struct parser {
     CharMap* char_map;
     MazeMatrix* matrix;
     bool failed;
+    void (*init)();
 } Parser;
 
+static void init();
 static Parser parser = {
-    .failed = false
+    .init = &init
 };
+
+void init()
+{
+    parser.failed = false;
+}
 
 static void parse_header();
 static void fill_matrix();
 static Maze* new_maze();
 Maze* from_path(const char* path)
 {
+    parser.init();
     if ((parser.fd = open(path, O_RDONLY)) == -1) {
         parser.failed = true;
         dprintf(STDERR_FILENO, "%s\n", "Can't open file");
