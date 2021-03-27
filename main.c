@@ -3,15 +3,19 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#define MISSING_ARG_ERR "my_mouse takes one or more arguments\nmy_mouse <maze_filepath>..."
+
 int main(int argc, char* argv[])
 {
-    if (argc != 2) {
-        dprintf(STDERR_FILENO, "%s\n", "my_mouse takes exactly one argument (path to maze file)");
+    if (argc < 2) {
+        dprintf(STDERR_FILENO, "%s\n", MISSING_ARG_ERR);
         return EXIT_FAILURE;
     }
-    Maze* maze = MazeClass.fromPath(argv[1]);
-    maze->print(maze);
-    maze->delete(maze);
-
+    for (int i = 1; i < argc; i++) {
+        Maze* maze = MazeClass.fromPath(argv[i]);
+        maze->print(maze);
+        puts("");
+        maze->delete(maze);
+    }
     return EXIT_SUCCESS;
 }
