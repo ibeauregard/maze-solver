@@ -31,7 +31,7 @@ Maze* from_path(const char* path)
     if ((parser.fd = open(path, O_RDONLY)) == -1) parser.failed = true;
     if (!parser.failed) parse_header();
     if (!parser.failed) fill_matrix();
-    if (!parser.failed) close(parser.fd);
+    if (parser.fd != -1) close(parser.fd);
     return new_maze();
 }
 
@@ -39,10 +39,12 @@ static char* initialize_matrix(char* header);
 static void initialize_char_map(char* header);
 void parse_header()
 {
-    char* header = readline(parser.fd);
-    char* char_map = initialize_matrix(header);
-    initialize_char_map(char_map);
-    free(header);
+    char* header;
+    if (!(header = readline(parser.fd))) parser.failed = true;
+    char* char_map;
+    if (!parser.failed) char_map = initialize_matrix(header);
+    if (!parser.failed) initialize_char_map(char_map);
+    if (header) free(header);
 }
 
 char* initialize_matrix(char* header)
