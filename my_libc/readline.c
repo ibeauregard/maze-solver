@@ -1,6 +1,5 @@
 #include "readline.h"
 #include <stdlib.h>
-#include <stdio.h>
 #include <stddef.h>
 #include <unistd.h>
 
@@ -11,7 +10,7 @@ typedef unsigned short ushort;
 typedef struct {
     ushort offset;
     ushort length;
-    char array[BUFSIZ];
+    char array[100000];
 } ReadBuffer;
 
 static ushort fill(ReadBuffer* buffer, int fd);

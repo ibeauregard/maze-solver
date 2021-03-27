@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS += -Wall -Wextra -Werror -Wpedantic -g3 -O3
+CFLAGS += -Wall -Wextra -Werror -Wpedantic -g3
 SANITIZE = -fsanitize=address
 LINKERFLAG = -lm
 SRCS = $(wildcard *.c) $(wildcard */*.c)

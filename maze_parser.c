@@ -18,6 +18,8 @@ typedef struct parser {
     int fd;
     CharMap* char_map;
     MazeMatrix* matrix;
+    MazeCoords* entrance;
+    MazeCoords* exit;
     bool failed;
     void (*init)();
 } Parser;
@@ -29,6 +31,7 @@ static Parser parser = {
 
 void init()
 {
+    parser.entrance = parser.exit = NULL;
     parser.failed = false;
 }
 
@@ -69,9 +72,11 @@ char* initialize_matrix(char* header)
         parser.failed = true;
         dprintf(STDERR_FILENO, "%s\n", "Header specifies invalid number of rows");
     }
-    if (!parser.failed && (num_cols = strtol(header + 1, &header, 10)) <= 0) {
+    if (!parser.failed
+        && ((num_cols = strtol(header + 1, &header, 10)) <= 0
+            || num_cols > 100000)) {
         parser.failed = true;
-        dprintf(STDERR_FILENO, "%s\n", "Header specifies invalid number of columns");
+        dprintf(STDERR_FILENO, "%s\n", "Header specifies invalid number of columns (max 100,000)");
     }
     if (!parser.failed && num_rows * num_cols > 1000000000) /* one billion */ {
         parser.failed = true;
@@ -101,20 +106,78 @@ void initialize_char_map(char* char_map)
     }
 }
 
+static void validate_row(char* row, uint row_index);
 void fill_matrix()
 {
-    for (uint i = 0; i < parser.matrix->num_rows; i++) {
-        parser.matrix->setRow(parser.matrix, i, readline(parser.fd));
+    char* row;
+    for (uint i = 0; !parser.failed && i < parser.matrix->num_rows; i++) {
+        if (!(row = readline(parser.fd))) {
+            parser.failed = true;
+            dprintf(STDERR_FILENO, "Maze has fewer rows than specified in the header (%u)\n", parser.matrix->num_rows);
+        }
+        if (!parser.failed) validate_row(row, i);
+        parser.matrix->setRow(parser.matrix, i, row);
+    }
+    if (!parser.failed && readline(parser.fd)) {
+        parser.failed = true;
+        dprintf(STDERR_FILENO, "Maze has more rows than specified in the header (%u)\n", parser.matrix->num_rows);
     }
 }
 
+void validate_row(char* row, uint row_index)
+{
+    uint col_count = strlen(row);
+    if (!parser.failed && col_count != parser.matrix->num_cols) {
+        parser.failed = true;
+        dprintf(STDERR_FILENO, "Row %u (0-based) has %u squares; should be %u\n", row_index, col_count, parser.matrix->num_cols);
+    }
+    for (uint j = 0; !parser.failed && j < parser.matrix->num_cols && j < col_count; j++) {
+        if (!parser.char_map->contains(parser.char_map, row[j])) {
+            parser.failed = true;
+            dprintf(STDERR_FILENO, "Invalid character '%c' at row %u, column %u (0-based)\n", row[j], row_index, j);
+        }
+    }
+}
+
+static void verify_and_set_entrance(Maze* maze);
+static void verify_and_set_exit(Maze* maze);
 static void initialize_internals(Maze* maze);
 Maze* new_maze()
 {
     Maze* maze = malloc(sizeof (Maze));
+    verify_and_set_entrance(maze);
+    verify_and_set_exit(maze);
+    if (!parser.failed) initialize_internals(maze);
     maze->valid = !parser.failed;
-    if (maze->valid) initialize_internals(maze);
     return maze;
+}
+
+void verify_and_set_entrance(Maze* maze)
+{
+    if (parser.failed) {
+        if (parser.entrance) parser.entrance->delete(parser.entrance);
+        return;
+    }
+    if (!parser.entrance) {
+        parser.failed = true;
+        dprintf(STDERR_FILENO, "%s\n", "Maze has no entrance (exactly one required)");
+        return;
+    }
+    maze->entrance = parser.entrance;
+}
+
+void verify_and_set_exit(Maze* maze)
+{
+    if (parser.failed) {
+        if (parser.exit) parser.exit->delete(parser.exit);
+        return;
+    }
+    if (!parser.entrance) {
+        parser.failed = true;
+        dprintf(STDERR_FILENO, "%s\n", "Maze has no exit (exactly one required)");
+        return;
+    }
+    maze->exit = parser.exit;
 }
 
 void initialize_internals(Maze* maze)

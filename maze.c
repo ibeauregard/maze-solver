@@ -43,7 +43,7 @@ void print_error_message()
 
 void print_header(struct maze_internals* _internals)
 {
-    printf("%dx%d", _internals->matrix->num_rows, _internals->matrix->num_cols);
+    printf("%ux%u", _internals->matrix->num_rows, _internals->matrix->num_cols);
     _internals->char_map->print(_internals->char_map);
     puts("");
 }
@@ -51,7 +51,11 @@ void print_header(struct maze_internals* _internals)
 static void delete_internals(struct maze_internals* _internals);
 void delete(Maze* self)
 {
-    if (self->valid) delete_internals(self->_internals);
+    if (self->valid) {
+        delete_internals(self->_internals);
+        self->entrance->delete(self->entrance);
+        self->exit->delete(self->exit);
+    }
     free(self);
 }
 

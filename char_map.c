@@ -8,6 +8,7 @@ struct char_map_class CharMapClass = {
 };
 
 static bool has_distinct_elements(CharMap* self);
+static bool contains(CharMap* self, char c);
 static void print(CharMap* self);
 static void delete(CharMap* self);
 CharMap* new()
@@ -15,6 +16,7 @@ CharMap* new()
     CharMap* self = malloc(sizeof (CharMap));
 
     self->hasDistinctElements = &has_distinct_elements;
+    self->contains = &contains;
     self->print = &print;
     self->delete = &delete;
     return self;
@@ -29,6 +31,11 @@ bool has_distinct_elements(CharMap* self)
         }
     }
     return true;
+}
+
+bool contains(CharMap* self, char c)
+{
+    return c == self->wall || c == self->corridor || c == self->path || c == self->entrance || c == self->exit;
 }
 
 void print(CharMap* self)
