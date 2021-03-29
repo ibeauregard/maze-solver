@@ -7,6 +7,7 @@ struct maze_matrix_class MazeMatrixClass = {
     .new = &new
 };
 
+static void set_element(MazeMatrix* self, MazeCoords* coords, char value);
 static void set_row(MazeMatrix* self, uint index, char* content);
 static void print(MazeMatrix* self);
 static void delete(MazeMatrix* self);
@@ -17,10 +18,16 @@ MazeMatrix* new(uint num_rows, uint num_cols)
     self->num_cols = num_cols;
     self->rows = malloc(self->num_rows * sizeof (char*));
 
+    self->setElement = &set_element;
     self->setRow = &set_row;
     self->print = &print;
     self->delete = &delete;
     return self;
+}
+
+void set_element(MazeMatrix* self, MazeCoords* coords, char value)
+{
+    self->rows[coords->row][coords->col] = value;
 }
 
 void set_row(MazeMatrix* self, uint index, char* content)

@@ -27,7 +27,7 @@ Maze* from_path(const char* path)
 
 void trace_path(Maze* self, MazePath* path)
 {
-    char path_char = self->_internals->char_map->entrance;
+    char path_char = self->_internals->char_map->path;
     MazeMatrix* matrix = self->_internals->matrix;
     MazeCoords* coords;
     while ((coords = path->next(path))) {

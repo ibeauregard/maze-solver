@@ -19,5 +19,5 @@ MazeCoords* new(uint row, uint col)
 
 void delete(MazeCoords* self)
 {
-    free(self);
+    free(self); self = NULL;
 }

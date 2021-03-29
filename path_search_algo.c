@@ -17,7 +17,7 @@ PathSearchAlgo* new(Maze* maze)
     PathSearchAlgo* self = malloc(sizeof (PathSearchAlgo));
     self->_internals = malloc(sizeof (struct path_search_algo_internals));
     self->_internals->maze = maze;
-    self->path = MazePathClass.new();
+    self->path = NULL;
 
     self->run = &run;
     self->delete = &delete;
@@ -26,7 +26,10 @@ PathSearchAlgo* new(Maze* maze)
 
 void run(PathSearchAlgo* self)
 {
-    self->found = false;
+    MazeCoordsStack* stack = MazeCoordsStackClass.new();
+    stack->push(stack, MazeCoordsClass.new(1, 3));
+    self->path = MazePathClass.new(stack);
+    self->found = true;
 }
 
 void delete(PathSearchAlgo* self)
