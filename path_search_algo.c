@@ -28,6 +28,16 @@ void run(PathSearchAlgo* self)
 {
     MazeCoordsStack* stack = MazeCoordsStackClass.new();
     stack->push(stack, MazeCoordsClass.new(1, 3));
+    stack->push(stack, MazeCoordsClass.new(2, 3));
+    stack->push(stack, MazeCoordsClass.new(3, 3));
+    stack->push(stack, MazeCoordsClass.new(3, 2));
+    stack->push(stack, MazeCoordsClass.new(4, 2));
+    stack->push(stack, MazeCoordsClass.new(5, 2));
+    stack->push(stack, MazeCoordsClass.new(6, 2));
+    stack->push(stack, MazeCoordsClass.new(7, 2));
+    stack->push(stack, MazeCoordsClass.new(8, 2));
+    stack->push(stack, MazeCoordsClass.new(8, 3));
+
     self->path = MazePathClass.new(stack);
     self->found = true;
 }
