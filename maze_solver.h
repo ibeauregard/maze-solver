@@ -3,9 +3,9 @@
 
 #include "maze.h"
 
-struct maze_solver_class {
+struct maze_solver {
     void (*solve)(Maze* maze);
 };
-extern struct maze_solver_class MazeSolverClass;
+extern struct maze_solver MazeSolver;
 
 #endif

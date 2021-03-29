@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 static void solve(Maze* maze);
-struct maze_solver_class MazeSolverClass = {
+struct maze_solver MazeSolver = {
     .solve = &solve
 };
 
