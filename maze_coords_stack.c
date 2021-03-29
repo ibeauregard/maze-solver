@@ -9,6 +9,7 @@ struct maze_coords_stack_class MazeCoordsStackClass = {
 static void initialize_internals(MazeCoordsStack* self);
 static void push(MazeCoordsStack* self, MazeCoords* coords);
 static MazeCoords* pop(MazeCoordsStack* self);
+static MazeCoords* peek(MazeCoordsStack* self);
 static void delete(MazeCoordsStack* self);
 MazeCoordsStack* new()
 {
@@ -16,6 +17,7 @@ MazeCoordsStack* new()
     initialize_internals(self);
     self->push = &push;
     self->pop = &pop;
+    self->peek = &peek;
     self->delete = &delete;
     return self;
 }
@@ -68,6 +70,11 @@ MazeCoords* pop(MazeCoordsStack* self)
     top->delete(top);
     self->_internals->top = new_top;
     return popped;
+}
+
+MazeCoords* peek(MazeCoordsStack* self)
+{
+    return self->_internals->top ? self->_internals->top->coords : NULL;
 }
 
 void delete(MazeCoordsStack* self)

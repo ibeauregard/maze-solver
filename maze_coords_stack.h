@@ -8,6 +8,7 @@ typedef struct maze_coords_stack {
     struct maze_coords_stack_internals* _internals;
     void (*push)(struct maze_coords_stack* self, MazeCoords* coords);
     MazeCoords* (*pop)(struct maze_coords_stack* self);
+    MazeCoords* (*peek)(struct maze_coords_stack* self);
     void (*delete)(struct maze_coords_stack* self);
 } MazeCoordsStack;
 

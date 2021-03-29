@@ -13,29 +13,26 @@ struct maze_class MazeClass = {
     .fromPath = &from_path
 };
 
-static void trace_path(Maze* self, MazePath* path);
+static void walk(Maze* self, MazeCoords* coords);
+static void walk_back(Maze* self, MazeCoords* coords);
 static void print(Maze* self);
 static void delete(Maze* self);
 Maze* from_path(const char* path)
 {
     Maze* self = MazeParser.fromPath(path);
-    self->tracePath = &trace_path;
+    self->walk = &walk;
+    self->walkBack = &walk_back;
     self->print = &print;
     self->delete = &delete;
     return self;
 }
 
 static bool is_corridor(Maze* self, MazeCoords* square);
-void trace_path(Maze* self, MazePath* path)
+void walk(Maze* self, MazeCoords* coords)
 {
-    char path_char = self->_internals->char_map->path;
     MazeMatrix* matrix = self->_internals->matrix;
-    MazeCoords* coords;
-    while ((coords = path->next(path))) {
-        if (is_corridor(self, coords)) {
-            matrix->setElement(matrix, coords, path_char);
-        }
-        coords->delete(coords);
+    if (is_corridor(self, coords)) {
+        matrix->setElement(matrix, coords, self->_internals->char_map->path);
     }
 }
 
@@ -43,6 +40,21 @@ bool is_corridor(Maze* self, MazeCoords* square)
 {
     struct maze_internals* internals = self->_internals;
     return internals->matrix->rows[square->row][square->col] == internals->char_map->corridor;
+}
+
+bool is_path(Maze* self, MazeCoords* square);
+void walk_back(Maze* self, MazeCoords* coords)
+{
+    MazeMatrix* matrix = self->_internals->matrix;
+    if (is_path(self, coords)) {
+        matrix->setElement(matrix, coords, self->_internals->char_map->corridor);
+    }
+}
+
+bool is_path(Maze* self, MazeCoords* square)
+{
+    struct maze_internals* internals = self->_internals;
+    return internals->matrix->rows[square->row][square->col] == internals->char_map->path;
 }
 
 static void print_error_message();

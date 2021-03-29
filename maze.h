@@ -11,7 +11,8 @@ typedef struct maze {
     bool valid;
     MazeCoords* entrance;
     MazeCoords* exit;
-    void (*tracePath)(struct maze* self, MazePath* path);
+    void (*walk)(struct maze* self, MazeCoords* coords);
+    void (*walkBack)(struct maze* self, MazeCoords* coords);
     void (*print)(struct maze* self);
     void (*delete)(struct maze* self);
 } Maze;

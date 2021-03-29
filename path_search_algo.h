@@ -8,7 +8,6 @@ struct path_search_algo_internals;
 typedef struct path_search_algo {
     struct path_search_algo_internals* _internals;
     bool found;
-    MazePath* path;
     void (*run)(struct path_search_algo* self);
     void (*delete)(struct path_search_algo* self);
 } PathSearchAlgo;

@@ -13,7 +13,7 @@ void solve(Maze* maze)
     PathSearchAlgo* algo = PathSearchAlgoClass.new(maze);
     algo->run(algo);
     if (algo->found) {
-        maze->tracePath(maze, algo->path);
+//        maze->tracePath(maze, algo->path);
     } else {
         dprintf(STDERR_FILENO, "%s\n", "Maze has no solution");
     }
