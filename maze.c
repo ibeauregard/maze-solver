@@ -13,14 +13,26 @@ struct maze_class MazeClass = {
     .fromPath = &from_path
 };
 
+static void trace_path(Maze* self, MazePath* path);
 static void print(Maze* self);
 static void delete(Maze* self);
 Maze* from_path(const char* path)
 {
     Maze* self = MazeParser.fromPath(path);
+    self->tracePath = &trace_path;
     self->print = &print;
     self->delete = &delete;
     return self;
+}
+
+void trace_path(Maze* self, MazePath* path)
+{
+    char path_char = self->_internals->char_map->entrance;
+    MazeMatrix* matrix = self->_internals->matrix;
+    MazeCoords* coords;
+    while ((coords = path->next(path))) {
+        matrix->setElement(matrix, coords, path_char);
+    }
 }
 
 static void print_error_message();
