@@ -1,4 +1,5 @@
 #include "maze.h"
+#include "maze_solver.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -14,6 +15,7 @@ int main(int argc, char* argv[])
     for (int i = 1; i < argc; i++) {
         Maze* maze = MazeClass.fromPath(argv[i]);
         printf("%s:\n", argv[i]);
+        MazeSolverClass.solve(maze);
         maze->print(maze);
         puts("");
         maze->delete(maze);
