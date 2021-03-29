@@ -32,6 +32,7 @@ void trace_path(Maze* self, MazePath* path)
     MazeCoords* coords;
     while ((coords = path->next(path))) {
         matrix->setElement(matrix, coords, path_char);
+        coords->delete(coords);
     }
 }
 
