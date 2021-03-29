@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     for (int i = 1; i < argc; i++) {
         Maze* maze = MazeClass.fromPath(argv[i]);
         printf("%s:\n", argv[i]);
-        MazeSolverClass.solve(maze);
+        if (maze->valid) MazeSolverClass.solve(maze);
         maze->print(maze);
         puts("");
         maze->delete(maze);

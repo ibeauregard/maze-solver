@@ -10,7 +10,6 @@ struct maze_solver_class MazeSolverClass = {
 
 void solve(Maze* maze)
 {
-    if (!maze->valid) return;
     PathSearchAlgo* algo = PathSearchAlgoClass.new(maze);
     algo->run(algo);
     if (algo->found) {
