@@ -129,7 +129,7 @@ void validate_row(char* row, uint row_index)
     uint col_count = strlen(row);
     if (!parser.failed && col_count != parser.matrix->num_cols) {
         parser.failed = true;
-        dprintf(STDERR_FILENO, "Row %u (0-based) has %u squares; should be %u\n", row_index, col_count, parser.matrix->num_cols);
+        dprintf(STDERR_FILENO, "Row %u (0-based) has %u squares; should have %u\n", row_index, col_count, parser.matrix->num_cols);
     }
     for (uint j = 0; !parser.failed && j < parser.matrix->num_cols && j < col_count; j++) {
         if (row[j] == parser.char_map->entrance) {
