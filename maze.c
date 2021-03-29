@@ -25,15 +25,24 @@ Maze* from_path(const char* path)
     return self;
 }
 
+static bool is_corridor(Maze* self, MazeCoords* square);
 void trace_path(Maze* self, MazePath* path)
 {
     char path_char = self->_internals->char_map->path;
     MazeMatrix* matrix = self->_internals->matrix;
     MazeCoords* coords;
     while ((coords = path->next(path))) {
-        matrix->setElement(matrix, coords, path_char);
+        if (is_corridor(self, coords)) {
+            matrix->setElement(matrix, coords, path_char);
+        }
         coords->delete(coords);
     }
+}
+
+bool is_corridor(Maze* self, MazeCoords* square)
+{
+    struct maze_internals* internals = self->_internals;
+    return internals->matrix->rows[square->row][square->col] == internals->char_map->corridor;
 }
 
 static void print_error_message();
