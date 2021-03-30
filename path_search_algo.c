@@ -64,7 +64,10 @@ uint search(PathSearchAlgo* self, MazeCoords* coords, uint current_cost)
     while ((next = orderedNeighbors->next(orderedNeighbors))) {
         maze->walk(maze, next);
         t = search(self, next, current_cost + 1);
-        if (self->found) return t;
+        if (self->found) {
+            orderedNeighbors->delete(orderedNeighbors);
+            return t;
+        }
         if (t < min) min = t;
         maze->walkBack(maze, next);
         next->delete(next);
