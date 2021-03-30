@@ -65,6 +65,7 @@ uint search(PathSearchAlgo* self, MazeCoords* coords, uint current_cost)
         maze->walk(maze, next);
         t = search(self, next, current_cost + 1);
         if (self->found) {
+            next->delete(next);
             orderedNeighbors->delete(orderedNeighbors);
             return t;
         }
