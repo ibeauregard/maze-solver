@@ -29,6 +29,10 @@ MazeCoords* next(CoordsIterator* self)
 
 void delete(CoordsIterator* self)
 {
+    MazeCoords* next;
+    while ((next = self->next(self))) {
+        next->delete(next);
+    }
     self->_internals->list->delete(self->_internals->list);
     free(self->_internals);
     free(self); self = NULL;
