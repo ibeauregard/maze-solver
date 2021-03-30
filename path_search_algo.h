@@ -2,12 +2,12 @@
 #define PATH_SEARCH_ALGO_H
 
 #include "maze.h"
-#include "maze_path.h"
 
 struct path_search_algo_internals;
 typedef struct path_search_algo {
     struct path_search_algo_internals* _internals;
     bool found;
+    uint num_steps;
     void (*run)(struct path_search_algo* self);
     void (*delete)(struct path_search_algo* self);
 } PathSearchAlgo;

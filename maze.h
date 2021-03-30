@@ -2,7 +2,6 @@
 #define MAZE_H
 
 #include "maze_coords.h"
-#include "maze_path.h"
 #include <stdbool.h>
 
 struct maze_internals;
@@ -11,6 +10,7 @@ typedef struct maze {
     bool valid;
     MazeCoords* entrance;
     MazeCoords* exit;
+    bool (*isCorridorOrExit)(struct maze* self, MazeCoords* coords);
     void (*walk)(struct maze* self, MazeCoords* coords);
     void (*walkBack)(struct maze* self, MazeCoords* coords);
     void (*print)(struct maze* self);

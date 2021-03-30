@@ -13,6 +13,7 @@ struct maze_class MazeClass = {
     .fromPath = &from_path
 };
 
+static bool is_corridor_or_exit(Maze* self, MazeCoords* square);
 static void walk(Maze* self, MazeCoords* coords);
 static void walk_back(Maze* self, MazeCoords* coords);
 static void print(Maze* self);
@@ -20,6 +21,7 @@ static void delete(Maze* self);
 Maze* from_path(const char* path)
 {
     Maze* self = MazeParser.fromPath(path);
+    self->isCorridorOrExit = &is_corridor_or_exit;
     self->walk = &walk;
     self->walkBack = &walk_back;
     self->print = &print;
@@ -28,18 +30,40 @@ Maze* from_path(const char* path)
 }
 
 static bool is_corridor(Maze* self, MazeCoords* square);
+static bool is_exit(Maze* self, MazeCoords* square);
+bool is_corridor_or_exit(Maze* self, MazeCoords* square)
+{
+    return is_corridor(self, square) || is_exit(self, square);
+}
+
+static bool is_within(Maze* self, MazeCoords* square);
+bool is_corridor(Maze* self, MazeCoords* square)
+{
+    struct maze_internals* internals = self->_internals;
+    return is_within(self, square)
+           && internals->matrix->rows[square->row][square->col] == internals->char_map->corridor;
+}
+
+bool is_exit(Maze* self, MazeCoords* square)
+{
+    struct maze_internals* internals = self->_internals;
+    return is_within(self, square)
+           && internals->matrix->rows[square->row][square->col] == internals->char_map->exit;
+}
+
+bool is_within(Maze* self, MazeCoords* square)
+{
+    MazeMatrix* matrix = self->_internals->matrix;
+    return 0 <= square->row && square->row < matrix->num_rows
+           && 0 <= square->col && square->col < matrix->num_cols;
+}
+
 void walk(Maze* self, MazeCoords* coords)
 {
     MazeMatrix* matrix = self->_internals->matrix;
     if (is_corridor(self, coords)) {
         matrix->setElement(matrix, coords, self->_internals->char_map->path);
     }
-}
-
-bool is_corridor(Maze* self, MazeCoords* square)
-{
-    struct maze_internals* internals = self->_internals;
-    return internals->matrix->rows[square->row][square->col] == internals->char_map->corridor;
 }
 
 bool is_path(Maze* self, MazeCoords* square);
