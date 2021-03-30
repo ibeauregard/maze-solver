@@ -54,8 +54,7 @@ bool is_exit(Maze* self, MazeCoords* square)
 bool is_within(Maze* self, MazeCoords* square)
 {
     MazeMatrix* matrix = self->_internals->matrix;
-    return 0 <= square->row && square->row < matrix->num_rows
-           && 0 <= square->col && square->col < matrix->num_cols;
+    return square->row < matrix->num_rows && square->col < matrix->num_cols;
 }
 
 void walk(Maze* self, MazeCoords* coords)
