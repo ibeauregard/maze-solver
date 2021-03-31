@@ -69,9 +69,7 @@ bool is_path(Maze* self, MazeCoords* square);
 void walk_back(Maze* self, MazeCoords* coords)
 {
     MazeMatrix* matrix = self->_internals->matrix;
-    if (is_path(self, coords)) {
-        matrix->setElement(matrix, coords, self->_internals->char_map->corridor);
-    }
+    matrix->setElement(matrix, coords, self->_internals->char_map->corridor);
 }
 
 bool is_path(Maze* self, MazeCoords* square)
