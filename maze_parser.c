@@ -74,9 +74,9 @@ char* initialize_matrix(char* header)
     }
     if (!parser.failed
         && ((num_cols = strtol(header + 1, &header, 10)) <= 0
-            || num_cols > 100000)) {
+            || num_cols > 1000)) {
         parser.failed = true;
-        dprintf(STDERR_FILENO, "%s\n", "Header specifies invalid number of columns (max 100,000)");
+        dprintf(STDERR_FILENO, "%s\n", "Header specifies invalid number of columns (max 1,000)");
     }
     if (!parser.failed && num_rows * num_cols > 1000000000) /* one billion */ {
         parser.failed = true;
