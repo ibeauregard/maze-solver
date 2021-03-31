@@ -48,5 +48,5 @@ void delete(MazeMatrix* self)
         free(self->rows[i]);
     }
     free(self->rows);
-    free(self);
+    free(self); self = NULL;
 }

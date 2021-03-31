@@ -13,7 +13,7 @@ struct path_search_algo_internals {
     MazeCoords* goal;
 };
 
-static void run(PathSearchAlgo* self);
+static void ida_star(PathSearchAlgo* self);
 static void delete(PathSearchAlgo* self);
 PathSearchAlgo* new(Maze* maze)
 {
@@ -23,25 +23,26 @@ PathSearchAlgo* new(Maze* maze)
     self->_internals->goal = maze->exit;
     self->found = false;
 
-    self->run = &run;
+    self->run = &ida_star;
     self->delete = &delete;
     return self;
 }
 
-static uint min_remaining_cost(PathSearchAlgo* self, MazeCoords* coords);
-static uint search(PathSearchAlgo* self, MazeCoords* coords, uint current_cost);
-void run(PathSearchAlgo* self)
+static uint min_remaining_steps(PathSearchAlgo* self, MazeCoords* coords);
+static uint search(PathSearchAlgo* self, MazeCoords* coords, uint num_steps);
+/**
+ * This is an implementation of the IDA* search algorithm (https://en.wikipedia.org/wiki/Iterative_deepening_A*).
+ */
+void ida_star(PathSearchAlgo* self)
 {
-    self->num_steps = min_remaining_cost(self, self->_internals->maze->entrance);
-    uint t;
-    while (true) {
-        t = search(self, self->_internals->maze->entrance, 0);
-        if (self->found || t == UINT_MAX) return;
+    uint t = min_remaining_steps(self, self->_internals->maze->entrance);
+    while (!self->found && t != UINT_MAX) {
         self->num_steps = t;
+        t = search(self, self->_internals->maze->entrance, 0);
     }
 }
 
-uint min_remaining_cost(PathSearchAlgo* self, MazeCoords* coords)
+uint min_remaining_steps(PathSearchAlgo* self, MazeCoords* coords)
 {
     MazeCoords* goal = self->_internals->goal;
     return abs((int) (goal->row - coords->row)) + abs((int) (goal->col - coords->col));
@@ -49,9 +50,9 @@ uint min_remaining_cost(PathSearchAlgo* self, MazeCoords* coords)
 
 static bool is_goal(PathSearchAlgo* self, MazeCoords* coords);
 static OrderedCoordsList* ordered_neighbors_of(PathSearchAlgo* self, MazeCoords* coords);
-uint search(PathSearchAlgo* self, MazeCoords* coords, uint current_cost)
+uint search(PathSearchAlgo* self, MazeCoords* coords, uint num_steps)
 {
-    uint f = current_cost + min_remaining_cost(self, coords);
+    uint f = num_steps + min_remaining_steps(self, coords);
     if (f > self->num_steps) return f;
     if (is_goal(self, coords)) {
         self->found = true;
@@ -63,7 +64,7 @@ uint search(PathSearchAlgo* self, MazeCoords* coords, uint current_cost)
     OrderedCoordsList* orderedNeighbors = ordered_neighbors_of(self, coords);
     while ((next = orderedNeighbors->next(orderedNeighbors))) {
         maze->walk(maze, next);
-        t = search(self, next, current_cost + 1);
+        t = search(self, next, num_steps + 1);
         if (self->found) {
             next->delete(next);
             orderedNeighbors->delete(orderedNeighbors);
@@ -96,7 +97,7 @@ OrderedCoordsList* ordered_neighbors_of(PathSearchAlgo* self, MazeCoords* coords
         col = coords->col + directions[i][1];
         if (maze->isCorridorOrExit(maze, &(MazeCoords) {.row = row, .col = col})) {
             MazeCoords* insertedCoords = MazeCoordsClass.new(row, col);
-            list->insert(list, insertedCoords, min_remaining_cost(self, insertedCoords));
+            list->insert(list, insertedCoords, min_remaining_steps(self, insertedCoords));
         }
     }
     return list;

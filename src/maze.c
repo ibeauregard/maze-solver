@@ -104,12 +104,12 @@ void delete(Maze* self)
         self->entrance->delete(self->entrance);
         self->exit->delete(self->exit);
     }
-    free(self);
+    free(self); self = NULL;
 }
 
 void delete_internals(struct maze_internals* _internals)
 {
     _internals->char_map->delete(_internals->char_map);
     _internals->matrix->delete(_internals->matrix);
-    free(_internals);
+    free(_internals); _internals = NULL;
 }

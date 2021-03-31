@@ -41,7 +41,7 @@ void insert(OrderedCoordsList* self, MazeCoords* coords, uint key)
         inserted->next = node;
         return;
     }
-    while (node->next && node->next->key > key) {
+    while (node->next && key > node->next->key) {
         node = node->next;
     }
     inserted->next = node->next;
@@ -54,7 +54,7 @@ MazeCoords* pop(OrderedCoordsList* self)
     if (!head) return NULL;
     MazeCoords* popped = head->coords;
     self->_internals->head = head->next;
-    free(head);
+    free(head); head = NULL;
     return popped;
 }
 

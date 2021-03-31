@@ -45,5 +45,5 @@ void print(CharMap* self)
 
 void delete(CharMap* self)
 {
-    free(self);
+    free(self); self = NULL;
 }
