@@ -52,7 +52,7 @@ Maze* from_path(const char* path)
 }
 
 static char* initialize_matrix(char* header);
-static void initialize_char_map(char* header);
+static void initialize_char_map(char* char_map);
 void parse_header()
 {
     char *header, *char_map;
