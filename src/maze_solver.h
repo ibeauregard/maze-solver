@@ -4,7 +4,7 @@
 #include "maze.h"
 
 struct maze_solver {
-    void (*solve)(Maze* maze);
+    void (*solve)(const char* path);
 };
 extern struct maze_solver MazeSolver;
 
