@@ -25,8 +25,8 @@ CharMap* new()
 bool has_distinct_elements(CharMap* self)
 {
     char members[] = {self->wall, self->corridor, self->path, self->entrance, self->exit};
-    for (unsigned short i = 0; i < 4; i++) {
-        for (unsigned short j = i + 1; j < 5; j++) {
+    for (unsigned char i = 0; i < 4; i++) {
+        for (unsigned char j = i + 1; j < 5; j++) {
             if (members[i] == members[j]) return false;
         }
     }
@@ -40,8 +40,7 @@ bool contains(CharMap* self, char c)
 
 void print(CharMap* self)
 {
-    printf("%c%c%c%c%c",
-           self->wall, self->corridor, self->path, self->entrance, self->exit);
+    printf("%c%c%c%c%c", self->wall, self->corridor, self->path, self->entrance, self->exit);
 }
 
 void delete(CharMap* self)
