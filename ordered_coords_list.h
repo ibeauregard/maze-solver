@@ -7,7 +7,7 @@ struct ordered_coords_list_internals;
 typedef struct ordered_coords_list {
     struct ordered_coords_list_internals* _internals;
     void (*insert)(struct ordered_coords_list* self, MazeCoords* coords, uint key);
-    MazeCoords* (*pop)(struct ordered_coords_list* self);
+    MazeCoords* (*next)(struct ordered_coords_list* self);
     void (*delete)(struct ordered_coords_list* self);
 } OrderedCoordsList;
 

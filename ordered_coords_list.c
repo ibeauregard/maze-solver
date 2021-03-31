@@ -21,7 +21,7 @@ OrderedCoordsList* new()
     self->_internals->head = NULL;
 
     self->insert = &insert;
-    self->pop = &pop;
+    self->next = &pop;
     self->delete = &delete;
     return self;
 }
@@ -60,6 +60,10 @@ MazeCoords* pop(OrderedCoordsList* self)
 
 void delete(OrderedCoordsList* self)
 {
+    MazeCoords* next;
+    while ((next = self->next(self))) {
+        next->delete(next);
+    }
     free(self->_internals);
     free(self); self = NULL;
 }

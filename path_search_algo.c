@@ -1,5 +1,5 @@
 #include "path_search_algo.h"
-#include "coords_iterator.h"
+#include "ordered_coords_list.h"
 #include <stdlib.h>
 #include <limits.h>
 
@@ -48,7 +48,7 @@ uint min_remaining_cost(PathSearchAlgo* self, MazeCoords* coords)
 }
 
 static bool is_goal(PathSearchAlgo* self, MazeCoords* coords);
-static CoordsIterator* ordered_neighbors_of(PathSearchAlgo* self, MazeCoords* coords);
+static OrderedCoordsList* ordered_neighbors_of(PathSearchAlgo* self, MazeCoords* coords);
 uint search(PathSearchAlgo* self, MazeCoords* coords, uint current_cost)
 {
     uint f = current_cost + min_remaining_cost(self, coords);
@@ -60,7 +60,7 @@ uint search(PathSearchAlgo* self, MazeCoords* coords, uint current_cost)
     uint min = UINT_MAX, t;
     Maze* maze = self->_internals->maze;
     MazeCoords* next;
-    CoordsIterator* orderedNeighbors = ordered_neighbors_of(self, coords);
+    OrderedCoordsList* orderedNeighbors = ordered_neighbors_of(self, coords);
     while ((next = orderedNeighbors->next(orderedNeighbors))) {
         maze->walk(maze, next);
         t = search(self, next, current_cost + 1);
@@ -86,7 +86,7 @@ bool is_goal(PathSearchAlgo* self, MazeCoords* coords)
 static signed char directions[][2] = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
 static unsigned char num_directions = 4;
 
-CoordsIterator* ordered_neighbors_of(PathSearchAlgo* self, MazeCoords* coords)
+OrderedCoordsList* ordered_neighbors_of(PathSearchAlgo* self, MazeCoords* coords)
 {
     OrderedCoordsList* list = OrderedCoordsListClass.new();
     Maze* maze = self->_internals->maze;
@@ -99,7 +99,7 @@ CoordsIterator* ordered_neighbors_of(PathSearchAlgo* self, MazeCoords* coords)
             list->insert(list, insertedCoords, min_remaining_cost(self, insertedCoords));
         }
     }
-    return CoordsIteratorClass.new(list);
+    return list;
 }
 
 void delete(PathSearchAlgo* self)
