@@ -94,8 +94,7 @@ CoordsIterator* ordered_neighbors_of(PathSearchAlgo* self, MazeCoords* coords)
     for (unsigned char i = 0; i < num_directions; i++) {
         row = coords->row + directions[i][0];
         col = coords->col + directions[i][1];
-        if (maze->isCorridorOrExit(maze, &(MazeCoords) {.row = row,
-                                                  .col = col})) {
+        if (maze->isCorridorOrExit(maze, &(MazeCoords) {.row = row, .col = col})) {
             MazeCoords* insertedCoords = MazeCoordsClass.new(row, col);
             list->insert(list, insertedCoords, min_remaining_cost(self, insertedCoords));
         }
