@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <unistd.h>
+#include <stdio.h>
 
 #define READLINE_READ_SIZE 512
 #define NEWLINE '\n'
@@ -10,7 +11,7 @@ typedef unsigned short ushort;
 typedef struct {
     ushort offset;
     ushort length;
-    char array[100000];
+    char array[BUFSIZ];
 } ReadBuffer;
 
 static ushort fill(ReadBuffer* buffer, int fd);
