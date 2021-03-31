@@ -16,7 +16,7 @@ void solve(Maze* maze)
         if (!algo->found) dprintf(STDERR_FILENO, "%s\n", "Maze has no solution");
     }
     maze->print(maze);
-    if (algo->found) printf("%u STEPS!\n", algo->num_steps);
+    if (algo->found) printf("%u STEPS\n", algo->num_steps);
     algo->delete(algo);
     puts("");
 }
