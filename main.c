@@ -16,8 +16,6 @@ int main(int argc, char* argv[])
         Maze* maze = MazeClass.fromPath(argv[i]);
         printf("%s:\n", argv[i]);
         if (maze->valid) MazeSolver.solve(maze);
-        maze->print(maze);
-        puts("");
         maze->delete(maze);
     }
     return EXIT_SUCCESS;
