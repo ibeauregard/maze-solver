@@ -58,3 +58,5 @@ This application uses an [iterative deepening A*](https://en.wikipedia.org/wiki/
 The time complexity of the algorithm is O(b<sup>m</sup>), where `m` is the number of steps needed to go from the entrance to the exit.
 
 Its space complexity is O(m).
+
+The code base also generally uses a coding style called "C-plus", emulating object-oriented programming and encapsulation of data with the C programming language.
