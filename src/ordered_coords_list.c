@@ -7,7 +7,7 @@ struct ordered_coords_list_class OrderedCoordsListClass = {
 };
 
 typedef struct ordered_coords_node OrderedCoordsNode;
-struct ordered_coords_list_internals {
+struct internals {
     OrderedCoordsNode* head;
 };
 
@@ -17,7 +17,7 @@ static void delete(OrderedCoordsList* self);
 OrderedCoordsList* new()
 {
     OrderedCoordsList* self = malloc(sizeof (OrderedCoordsList));
-    self->_internals = malloc(sizeof (struct ordered_coords_list_internals));
+    self->_internals = malloc(sizeof (struct internals));
     self->_internals->head = NULL;
 
     self->insert = &insert;

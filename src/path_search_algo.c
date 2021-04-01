@@ -8,7 +8,7 @@ struct path_search_algo_class PathSearchAlgoClass = {
         .new = &new
 };
 
-struct path_search_algo_internals {
+struct internals {
     Maze* maze;
     MazeCoords* goal;
 };
@@ -18,7 +18,7 @@ static void delete(PathSearchAlgo* self);
 PathSearchAlgo* new(Maze* maze)
 {
     PathSearchAlgo* self = malloc(sizeof (PathSearchAlgo));
-    self->_internals = malloc(sizeof (struct path_search_algo_internals));
+    self->_internals = malloc(sizeof (struct internals));
     self->_internals->maze = maze;
     self->_internals->goal = maze->exit;
     self->found = false;
