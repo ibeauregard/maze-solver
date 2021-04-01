@@ -3,11 +3,12 @@
 
 typedef unsigned int uint;
 
-typedef struct maze_coords {
+typedef struct maze_coords MazeCoords;
+struct maze_coords {
     uint row;
     uint col;
-    void (*delete)(struct maze_coords* self);
-} MazeCoords;
+    void (*delete)(MazeCoords* self);
+};
 
 struct maze_coords_class {
     MazeCoords* (*new)(uint row, uint col);

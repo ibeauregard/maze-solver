@@ -3,14 +3,15 @@
 
 #include "maze.h"
 
+typedef struct path_search_algo PathSearchAlgo;
 struct path_search_algo_internals;
-typedef struct path_search_algo {
+struct path_search_algo {
     struct path_search_algo_internals* _internals;
     bool found;
     uint num_steps;
-    void (*run)(struct path_search_algo* self);
-    void (*delete)(struct path_search_algo* self);
-} PathSearchAlgo;
+    void (*run)(PathSearchAlgo* self);
+    void (*delete)(PathSearchAlgo* self);
+};
 
 
 struct path_search_algo_class {

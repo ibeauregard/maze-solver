@@ -4,16 +4,17 @@
 #include "maze_coords.h"
 
 typedef unsigned int uint;
-typedef struct maze_matrix {
+typedef struct maze_matrix MazeMatrix;
+struct maze_matrix {
     uint num_rows;
     uint num_cols;
     char** rows;
 
-    void (*setElement)(struct maze_matrix* self, MazeCoords* coords, char value);
-    void (*setRow)(struct maze_matrix* self, uint index, char* content);
-    void (*print)(struct maze_matrix* self);
-    void (*delete)(struct maze_matrix* self);
-} MazeMatrix;
+    void (*setElement)(MazeMatrix* self, MazeCoords* coords, char value);
+    void (*setRow)(MazeMatrix* self, uint index, char* content);
+    void (*print)(MazeMatrix* self);
+    void (*delete)(MazeMatrix* self);
+};
 
 struct maze_matrix_class {
     MazeMatrix* (*new)(uint num_rows, uint num_cols);

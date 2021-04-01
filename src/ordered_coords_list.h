@@ -3,13 +3,14 @@
 
 #include "maze_coords.h"
 
+typedef struct ordered_coords_list OrderedCoordsList;
 struct ordered_coords_list_internals;
-typedef struct ordered_coords_list {
+struct ordered_coords_list {
     struct ordered_coords_list_internals* _internals;
-    void (*insert)(struct ordered_coords_list* self, MazeCoords* coords, uint key);
-    MazeCoords* (*next)(struct ordered_coords_list* self);
-    void (*delete)(struct ordered_coords_list* self);
-} OrderedCoordsList;
+    void (*insert)(OrderedCoordsList* self, MazeCoords* coords, uint key);
+    MazeCoords* (*next)(OrderedCoordsList* self);
+    void (*delete)(OrderedCoordsList* self);
+};
 
 struct ordered_coords_list_class {
     OrderedCoordsList* (*new)();

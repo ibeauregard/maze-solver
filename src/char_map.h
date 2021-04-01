@@ -3,17 +3,18 @@
 
 #include <stdbool.h>
 
-typedef struct char_map {
+typedef struct char_map CharMap;
+struct char_map {
     char wall;
     char corridor;
     char path;
     char entrance;
     char exit;
 
-    bool (*hasDistinctElements)(struct char_map* self);
-    void (*print)(struct char_map* self);
-    void (*delete)(struct char_map* self);
-} CharMap;
+    bool (*hasDistinctElements)(CharMap* self);
+    void (*print)(CharMap* self);
+    void (*delete)(CharMap* self);
+};
 
 struct char_map_class {
     CharMap* (*new)();
