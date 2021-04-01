@@ -11,7 +11,6 @@ typedef struct char_map {
     char exit;
 
     bool (*hasDistinctElements)(struct char_map* self);
-    bool (*contains)(struct char_map* self, char c);
     void (*print)(struct char_map* self);
     void (*delete)(struct char_map* self);
 } CharMap;
