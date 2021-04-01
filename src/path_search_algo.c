@@ -84,11 +84,10 @@ bool is_goal(PathSearchAlgo* self, MazeCoords* coords)
     return goal->row == coords->row && goal->col == coords->col;
 }
 
-static signed char directions[][2] = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
-static unsigned char num_directions = 4;
-
 OrderedCoordsList* ordered_neighbors_of(PathSearchAlgo* self, MazeCoords* coords)
 {
+    static signed char directions[][2] = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
+    static unsigned char num_directions = 4;
     OrderedCoordsList* list = OrderedCoordsListClass.new();
     Maze* maze = self->_internals->maze;
     uint row, col;
