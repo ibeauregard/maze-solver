@@ -16,7 +16,7 @@ struct maze_matrix {
     void (*delete)(MazeMatrix* self);
 };
 
-struct maze_matrix_class {
+extern struct maze_matrix_class {
     MazeMatrix* (*new)(uint num_rows, uint num_cols);
 } MazeMatrixClass;
 

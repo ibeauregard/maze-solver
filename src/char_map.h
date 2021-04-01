@@ -16,7 +16,7 @@ struct char_map {
     void (*delete)(CharMap* self);
 };
 
-struct char_map_class {
+extern struct char_map_class {
     CharMap* (*new)();
 } CharMapClass;
 

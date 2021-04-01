@@ -3,7 +3,7 @@
 
 #include "maze.h"
 
-struct maze_solver {
+extern struct maze_solver {
     void (*solve)(const char* path);
 } MazeSolver;
 

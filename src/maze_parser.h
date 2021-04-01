@@ -3,7 +3,7 @@
 
 #include "maze.h"
 
-struct maze_parser {
+extern struct maze_parser {
     Maze* (*fromPath)(const char* path);
 } MazeParser;
 
