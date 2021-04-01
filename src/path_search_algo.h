@@ -16,7 +16,6 @@ struct path_search_algo {
 
 struct path_search_algo_class {
     PathSearchAlgo* (*new)(Maze* maze);
-};
-extern struct path_search_algo_class PathSearchAlgoClass;
+} PathSearchAlgoClass;
 
 #endif

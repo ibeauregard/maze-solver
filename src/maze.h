@@ -20,7 +20,6 @@ struct maze {
 
 struct maze_class {
     Maze* (*fromPath)(const char* path);
-};
-extern struct maze_class MazeClass;
+} MazeClass;
 
 #endif

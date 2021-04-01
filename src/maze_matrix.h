@@ -18,7 +18,6 @@ struct maze_matrix {
 
 struct maze_matrix_class {
     MazeMatrix* (*new)(uint num_rows, uint num_cols);
-};
-extern struct maze_matrix_class MazeMatrixClass;
+} MazeMatrixClass;
 
 #endif

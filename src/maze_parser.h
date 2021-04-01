@@ -5,7 +5,6 @@
 
 struct maze_parser {
     Maze* (*fromPath)(const char* path);
-};
-extern struct maze_parser MazeParser;
+} MazeParser;
 
 #endif

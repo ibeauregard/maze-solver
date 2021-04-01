@@ -14,7 +14,6 @@ struct ordered_coords_list {
 
 struct ordered_coords_list_class {
     OrderedCoordsList* (*new)();
-};
-extern struct ordered_coords_list_class OrderedCoordsListClass;
+} OrderedCoordsListClass;
 
 #endif
