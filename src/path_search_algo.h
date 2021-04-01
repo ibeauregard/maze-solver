@@ -4,7 +4,6 @@
 #include "maze.h"
 
 typedef struct path_search_algo PathSearchAlgo;
-struct path_search_algo_internals;
 struct path_search_algo {
     struct path_search_algo_internals* _internals;
     bool found;

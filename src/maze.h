@@ -5,7 +5,6 @@
 #include <stdbool.h>
 
 typedef struct maze Maze;
-struct maze_internals;
 struct maze {
     struct maze_internals* _internals;
     bool valid;
