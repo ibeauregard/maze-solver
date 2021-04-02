@@ -1,4 +1,3 @@
-#include "maze.h"
 #include "maze_solver.h"
 #include <stdio.h>
 #include <unistd.h>
