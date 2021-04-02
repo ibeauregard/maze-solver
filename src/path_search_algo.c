@@ -4,7 +4,7 @@
 #include <limits.h>
 
 static PathSearchAlgo* new(Maze* maze);
-struct path_search_algo_class PathSearchAlgoClass = {
+const struct path_search_algo_class PathSearchAlgoClass = {
         .new = &new
 };
 

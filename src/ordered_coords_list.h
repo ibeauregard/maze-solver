@@ -11,7 +11,7 @@ struct ordered_coords_list {
     void (*delete)(OrderedCoordsList* self);
 };
 
-extern struct ordered_coords_list_class {
+extern const struct ordered_coords_list_class {
     OrderedCoordsList* (*new)();
 } OrderedCoordsListClass;
 

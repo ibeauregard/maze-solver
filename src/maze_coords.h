@@ -10,7 +10,7 @@ struct maze_coords {
     void (*delete)(MazeCoords* self);
 };
 
-extern struct maze_coords_class {
+extern const struct maze_coords_class {
     MazeCoords* (*new)(uint row, uint col);
 } MazeCoordsClass;
 

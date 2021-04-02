@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 static MazeMatrix* new();
-struct maze_matrix_class MazeMatrixClass = {
+const struct maze_matrix_class MazeMatrixClass = {
     .new = &new
 };
 

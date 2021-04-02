@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 static MazeCoords* new(uint row, uint col);
-struct maze_coords_class MazeCoordsClass = {
+const struct maze_coords_class MazeCoordsClass = {
     .new = &new
 };
 

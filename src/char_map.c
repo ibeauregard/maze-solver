@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 static CharMap* new();
-struct char_map_class CharMapClass = {
+const struct char_map_class CharMapClass = {
     .new = &new
 };
 

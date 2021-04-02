@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 static OrderedCoordsList* new();
-struct ordered_coords_list_class OrderedCoordsListClass = {
+const struct ordered_coords_list_class OrderedCoordsListClass = {
         .new = &new
 };
 

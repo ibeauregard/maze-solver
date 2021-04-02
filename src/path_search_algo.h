@@ -13,7 +13,7 @@ struct path_search_algo {
 };
 
 
-extern struct path_search_algo_class {
+extern const struct path_search_algo_class {
     PathSearchAlgo* (*new)(Maze* maze);
 } PathSearchAlgoClass;
 

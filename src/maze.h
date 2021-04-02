@@ -17,7 +17,7 @@ struct maze {
     void (*delete)(Maze* self);
 };
 
-extern struct maze_class {
+extern const struct maze_class {
     Maze* (*fromPath)(const char* path);
 } MazeClass;
 

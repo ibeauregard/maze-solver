@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 static void solve(const char* path);
-struct maze_solver MazeSolver = {
+const struct maze_solver MazeSolver = {
     .solve = &solve
 };
 

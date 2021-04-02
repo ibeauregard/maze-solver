@@ -9,7 +9,7 @@
 #define INVALID_MAP_ERR "MAP ERROR"
 
 static Maze* from_path(const char* path);
-struct maze_class MazeClass = {
+const struct maze_class MazeClass = {
     .fromPath = &from_path
 };
 

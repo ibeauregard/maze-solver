@@ -10,7 +10,7 @@
 #include <string.h>
 
 Maze* from_path(const char* path);
-struct maze_parser MazeParser = {
+const struct maze_parser MazeParser = {
     .fromPath = &from_path
 };
 
