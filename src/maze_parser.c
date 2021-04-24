@@ -186,8 +186,8 @@ void verify_and_set_entrance_and_exit(Maze* maze)
 
 void delete_entrance_and_exit()
 {
-    if (parser.entrance) parser.entrance->delete(parser.entrance);
-    if (parser.exit) parser.exit->delete(parser.exit);
+    if (parser.entrance) parser.entrance->delete(&parser.entrance);
+    if (parser.exit) parser.exit->delete(&parser.exit);
 }
 
 void initialize_internals(Maze* maze)

@@ -8,7 +8,7 @@ struct ordered_coords_list {
     struct internals* _internals;
     void (*insert)(OrderedCoordsList* self, MazeCoords* coords, uint key);
     MazeCoords* (*next)(OrderedCoordsList* self);
-    void (*delete)(OrderedCoordsList* self);
+    void (*delete)(OrderedCoordsList** self);
 };
 
 extern const struct ordered_coords_list_class {

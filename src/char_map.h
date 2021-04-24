@@ -13,7 +13,7 @@ struct char_map {
 
     bool (*hasDistinctElements)(CharMap* self);
     void (*print)(CharMap* self);
-    void (*delete)(CharMap* self);
+    void (*delete)(CharMap** self);
 };
 
 extern const struct char_map_class {

@@ -13,7 +13,7 @@ struct internals {
 
 static void insert(OrderedCoordsList* self, MazeCoords* coords, uint key);
 static MazeCoords* pop(OrderedCoordsList* self);
-static void delete(OrderedCoordsList* self);
+static void delete(OrderedCoordsList** self);
 OrderedCoordsList* new()
 {
     OrderedCoordsList* self = malloc(sizeof (OrderedCoordsList));
@@ -58,12 +58,12 @@ MazeCoords* pop(OrderedCoordsList* self)
     return popped;
 }
 
-void delete(OrderedCoordsList* self)
+void delete(OrderedCoordsList** self)
 {
     MazeCoords* next;
-    while ((next = self->next(self))) {
-        next->delete(next);
+    while ((next = (*self)->next(*self))) {
+        next->delete(&next);
     }
-    free(self->_internals);
-    free(self); self = NULL;
+    free((*self)->_internals);
+    free(*self); *self = NULL;
 }

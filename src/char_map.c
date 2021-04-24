@@ -9,7 +9,7 @@ const struct char_map_class CharMapClass = {
 
 static bool has_distinct_elements(CharMap* self);
 static void print(CharMap* self);
-static void delete(CharMap* self);
+static void delete(CharMap** self);
 CharMap* new()
 {
     CharMap* self = malloc(sizeof (CharMap));
@@ -36,7 +36,7 @@ void print(CharMap* self)
     printf("%c%c%c%c%c", self->wall, self->corridor, self->path, self->entrance, self->exit);
 }
 
-void delete(CharMap* self)
+void delete(CharMap** self)
 {
-    free(self); self = NULL;
+    free(*self); *self = NULL;
 }

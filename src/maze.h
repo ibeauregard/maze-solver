@@ -14,7 +14,7 @@ struct maze {
     void (*walk)(Maze* self, MazeCoords* coords);
     void (*walkBack)(Maze* self, MazeCoords* coords);
     void (*print)(Maze* self);
-    void (*delete)(Maze* self);
+    void (*delete)(Maze** self);
 };
 
 extern const struct maze_class {

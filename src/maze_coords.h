@@ -7,7 +7,7 @@ typedef struct maze_coords MazeCoords;
 struct maze_coords {
     uint row;
     uint col;
-    void (*delete)(MazeCoords* self);
+    void (*delete)(MazeCoords** self);
 };
 
 extern const struct maze_coords_class {

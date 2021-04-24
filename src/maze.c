@@ -17,7 +17,7 @@ static bool is_corridor_or_exit(Maze* self, MazeCoords* square);
 static void walk(Maze* self, MazeCoords* coords);
 static void walk_back(Maze* self, MazeCoords* coords);
 static void print(Maze* self);
-static void delete(Maze* self);
+static void delete(Maze** self);
 Maze* from_path(const char* path)
 {
     Maze* self = MazeParser.fromPath(path);
@@ -97,19 +97,19 @@ void print_header(struct maze_internals* _internals)
 }
 
 static void delete_internals(struct maze_internals* _internals);
-void delete(Maze* self)
+void delete(Maze** self)
 {
-    if (self->valid) {
-        delete_internals(self->_internals);
-        self->entrance->delete(self->entrance);
-        self->exit->delete(self->exit);
+    if ((*self)->valid) {
+        delete_internals((*self)->_internals);
+        (*self)->entrance->delete(&(*self)->entrance);
+        (*self)->exit->delete(&(*self)->exit);
     }
-    free(self); self = NULL;
+    free(*self); *self = NULL;
 }
 
 void delete_internals(struct maze_internals* _internals)
 {
-    _internals->char_map->delete(_internals->char_map);
-    _internals->matrix->delete(_internals->matrix);
+    _internals->char_map->delete(&_internals->char_map);
+    _internals->matrix->delete(&_internals->matrix);
     free(_internals); _internals = NULL;
 }

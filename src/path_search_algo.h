@@ -9,7 +9,7 @@ struct path_search_algo {
     bool found;
     uint num_steps;
     void (*run)(PathSearchAlgo* self);
-    void (*delete)(PathSearchAlgo* self);
+    void (*delete)(PathSearchAlgo** self);
 };
 
 

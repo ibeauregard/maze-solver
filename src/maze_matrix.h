@@ -13,7 +13,7 @@ struct maze_matrix {
     void (*setElement)(MazeMatrix* self, MazeCoords* coords, char value);
     void (*setRow)(MazeMatrix* self, uint index, char* content);
     void (*print)(MazeMatrix* self);
-    void (*delete)(MazeMatrix* self);
+    void (*delete)(MazeMatrix** self);
 };
 
 extern const struct maze_matrix_class {

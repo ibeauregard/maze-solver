@@ -6,7 +6,7 @@ const struct maze_coords_class MazeCoordsClass = {
     .new = &new
 };
 
-static void delete(MazeCoords* self);
+static void delete(MazeCoords** self);
 MazeCoords* new(uint row, uint col)
 {
     MazeCoords* self = malloc(sizeof (MazeCoords));
@@ -17,7 +17,7 @@ MazeCoords* new(uint row, uint col)
     return self;
 }
 
-void delete(MazeCoords* self)
+void delete(MazeCoords** self)
 {
-    free(self); self = NULL;
+    free(*self); *self = NULL;
 }

@@ -14,7 +14,7 @@ struct internals {
 };
 
 static void ida_star(PathSearchAlgo* self);
-static void delete(PathSearchAlgo* self);
+static void delete(PathSearchAlgo** self);
 PathSearchAlgo* new(Maze* maze)
 {
     PathSearchAlgo* self = malloc(sizeof (PathSearchAlgo));
@@ -66,15 +66,15 @@ uint search(PathSearchAlgo* self, MazeCoords* coords, uint num_steps)
         maze->walk(maze, next);
         t = search(self, next, num_steps + 1);
         if (self->found) {
-            next->delete(next);
-            orderedNeighbors->delete(orderedNeighbors);
+            next->delete(&next);
+            orderedNeighbors->delete(&orderedNeighbors);
             return t;
         }
         if (t < min) min = t;
         maze->walkBack(maze, next);
-        next->delete(next);
+        next->delete(&next);
     }
-    orderedNeighbors->delete(orderedNeighbors);
+    orderedNeighbors->delete(&orderedNeighbors);
     return min;
 }
 
@@ -102,8 +102,8 @@ OrderedCoordsList* ordered_neighbors_of(PathSearchAlgo* self, MazeCoords* coords
     return list;
 }
 
-void delete(PathSearchAlgo* self)
+void delete(PathSearchAlgo** self)
 {
-    free(self->_internals);
-    free(self);
+    free((*self)->_internals);
+    free(*self); *self = NULL;
 }
