@@ -55,7 +55,7 @@ If the maze has no solution, the path search algorithm is forced to explore a mu
 
 This application uses an [iterative deepening A*](https://en.wikipedia.org/wiki/Iterative_deepening_A*) (IDA*) path search algorithm.
 
-The time complexity of the algorithm is O(b<sup>m</sup>), where `m` is the number of steps needed to go from the entrance to the exit.
+The time complexity of the algorithm is O(3<sup>m</sup>), where `m` is the number of steps needed to go from the entrance to the exit.
 
 Its space complexity is O(m).
 
